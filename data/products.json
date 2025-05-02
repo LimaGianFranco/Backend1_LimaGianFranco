@@ -1,58 +1,22 @@
 [
   {
-    "id": "1743779032140",
-    "title": "Pizza Napolitana",
-    "description": "Pizza con tomate, mozzarella y albahaca",
-    "code": "PZA456",
-    "price": 15000,
-    "status": true,
-    "stock": 30,
-    "category": "Comida",
-    "thumbnails": [
-      "pizza1.jpg",
-      "pizza2.jpg"
-    ]
+    "id": "1746200083223",
+    "title": "12 empanas de carne ",
+    "price": "12500"
   },
   {
-    "id": "1743779042186",
-    "title": "Empanada de Carne",
-    "description": "Empanada jugosa de carne picada con huevo",
-    "code": "EMP001",
-    "price": 2,
-    "status": true,
-    "stock": 100,
-    "category": "Comida",
-    "thumbnails": [
-      "empanada1.jpg",
-      "empanada2.jpg"
-    ]
+    "id": "1746200636161",
+    "title": "panchos",
+    "price": "2500"
   },
   {
-    "id": "1743779052280",
-    "title": "coca cola",
-    "description": "zero",
-    "code": "EMP001",
-    "price": 2000,
-    "status": true,
-    "stock": 100,
-    "category": "bebida",
-    "thumbnails": [
-      "coca1.jpg",
-      "coca2.jpg"
-    ]
+    "id": "1746200720798",
+    "title": "buerger triple",
+    "price": "15000"
   },
   {
-    "id": "1743779094237",
-    "title": "Hamburguesa Doble",
-    "description": "Doble carne con queso y papas fritas",
-    "code": "HBG123",
-    "price": 12000,
-    "status": true,
-    "stock": 50,
-    "category": "Comida",
-    "thumbnails": [
-      "img1.jpg",
-      "img2.jpg"
-    ]
+    "id": "1746200943825",
+    "title": "pan",
+    "price": "120"
   }
 ]
