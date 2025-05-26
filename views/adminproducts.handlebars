@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+</head>
+<body>
+
+  <h3>Productos Actuales</h3>
+  <form id="sortForm" action="/adminproducts" method="get">
+    <label for="sort">Ordenar por precio:</label>
+    <select id="sort" name="sort" onchange="document.getElementById('sortForm').submit();">
+      <option value="desc" {{#if (eq sort 'desc')}}selected{{/if}}>Mayor a Menor</option>
+      <option value="asc" {{#if (eq sort 'asc')}}selected{{/if}}>Menor a Mayor</option>
+    </select>
+  </form>
+
+  <ul id="productList">
+    {{#each productos}}
+    <li>
+      {{this.title}} - ${{this.price}} 
+      <button onclick="deleteProduct('{{this._id}}')">Eliminar</button>
+      <button onclick="editProduct('{{this._id}}', '{{this.title}}', '{{this.code}}', '{{this.price}}')">Editar</button>
+    </li>
+    {{/each}}
+  </ul>
+
+  <h3>Editar Producto</h3>
+  <form id="editProductForm" style="display:none;">
+    <input type="text" id="editProductTitle" placeholder="Nuevo nombre del producto" required>
+    <input type="text" id="editProductCode" placeholder="Nuevo código del producto" required>
+    <input type="number" id="editProductPrice" placeholder="Nuevo precio" required>
+    <button type="submit">Guardar Cambios</button>
+    <button type="button" onclick="cancelEdit()">Cancelar</button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    socket.on('productsUpdated', (products) => {
+        const productList = document.getElementById('productList');
+        productList.innerHTML = '';
+        products.forEach(product => {
+            productList.innerHTML += `
+                <li>
+                    ${product.title} - $${product.price} 
+                    <button onclick="deleteProduct('${product._id}')">Eliminar</button>
+                    <button onclick="editProduct('${product._id}', '${product.title}', '${product.code}', '${product.price}')">Editar</button>
+                </li>
+            `;
+        });
+    });
+
+    document.getElementById('addProductForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const title = document.getElementById('productTitle').value;
+        const code = document.getElementById('productCode').value;
+        const price = document.getElementById('productPrice').value;
+        socket.emit('newProduct', { title, code, price });
+    });
+
+    function deleteProduct(productId) {
+      socket.emit('deleteProduct', productId);
+    }
+    function editProduct(productId, title, code, price) {
+      document.getElementById('editProductForm').style.display = 'block';
+      document.getElementById('editProductTitle').value = title;
+      document.getElementById('editProductCode').value = code;
+      document.getElementById('editProductPrice').value = price;
+
+      document.getElementById('editProductForm').onsubmit = function(event) {
+        event.preventDefault();
+
+        const updatedTitle = document.getElementById('editProductTitle').value;
+        const updatedCode = document.getElementById('editProductCode').value;
+        const updatedPrice = document.getElementById('editProductPrice').value;
+
+        socket.emit('editProduct', {
+          productId,
+          title: updatedTitle,
+          code: updatedCode,
+          price: updatedPrice
+        });
+
+        document.getElementById('editProductForm').style.display = 'none';
+      };
+    }
+    function cancelEdit() {
+      document.getElementById('editProductForm').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
